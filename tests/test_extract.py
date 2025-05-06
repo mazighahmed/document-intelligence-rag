@@ -26,3 +26,9 @@ def test_non_pdf_raises():
 
 def test_normalize_joins_hyphenated_words_and_spaces():
     assert normalize("infor-\nmation   retrieval\n\n\n\nnext") == "information retrieval\n\nnext"
+
+
+def test_truncated_pdf_raises():
+    data = make_pdf(["some text"])
+    with pytest.raises(ExtractionError, match="could not read"):
+        extract_pages(data[: len(data) // 2])
