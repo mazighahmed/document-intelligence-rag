@@ -1,3 +1,4 @@
+import re
 from typing import Protocol
 
 import httpx
@@ -22,12 +23,24 @@ def build_prompt(question: str, sources: list[Chunk]) -> str:
     return "Sources:\n\n" + "\n\n".join(blocks) + f"\n\nQuestion: {question}"
 
 
+def words(text: str) -> set[str]:
+    return set(re.findall(r"\w+", text.lower()))
+
+
 class MockLLM:
+    """Extractive stand-in: returns the source sentence sharing the most words with the question."""
+
     def generate(self, question: str, sources: list[Chunk]) -> str:
         if not sources:
             return "I don't know."
-        first_sentence = sources[0].text.split(". ")[0].rstrip(".")
-        return f"{first_sentence}. [1]"
+        asked = words(question)
+        candidates = [
+            (len(asked & words(sentence)), sentence.strip(), i)
+            for i, c in enumerate(sources, start=1)
+            for sentence in re.split(r"(?<=[.!?])\s+", c.text)
+        ]
+        _, sentence, i = max(candidates, key=lambda x: x[0])
+        return f"{sentence} [{i}]"
 
 
 class OpenAICompatibleLLM:

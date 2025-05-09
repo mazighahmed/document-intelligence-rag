@@ -24,3 +24,14 @@ def test_ask_with_empty_index(pipeline):
     answer = pipeline.ask("anything?", k=3)
     assert answer.sources == []
     assert answer.text == "I don't know."
+
+
+def test_mock_llm_picks_matching_sentence():
+    from docrag.chunking import Chunk
+    from docrag.llm import MockLLM
+
+    sources = [
+        Chunk("1", "d", "a.pdf", 1, 0, "Title. Cats sleep a lot."),
+        Chunk("2", "d", "a.pdf", 2, 1, "Water boils at 100 degrees."),
+    ]
+    assert MockLLM().generate("When does water boil?", sources) == "Water boils at 100 degrees. [2]"
