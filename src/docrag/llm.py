@@ -4,6 +4,7 @@ from typing import Protocol
 import httpx
 
 from docrag.chunking import Chunk
+from docrag.config import Settings
 
 SYSTEM_PROMPT = (
     "Answer the question using only the numbered sources. "
@@ -63,3 +64,11 @@ class OpenAICompatibleLLM:
         )
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
+
+
+def make_llm(settings: Settings) -> LLM:
+    if settings.llm_provider == "openai":
+        return OpenAICompatibleLLM(settings.llm_base_url, settings.llm_model, settings.llm_api_key)
+    if settings.llm_provider == "mock":
+        return MockLLM()
+    raise ValueError(f"unknown LLM provider: {settings.llm_provider}")

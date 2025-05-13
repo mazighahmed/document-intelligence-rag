@@ -40,15 +40,12 @@ def build_pipeline(settings: Settings) -> Pipeline:
     from qdrant_client import QdrantClient
 
     from docrag.embeddings import SentenceTransformerEmbedder
-    from docrag.llm import MockLLM, OpenAICompatibleLLM
+    from docrag.llm import make_llm
     from docrag.store import VectorStore
 
     embedder = SentenceTransformerEmbedder(settings.embedding_model)
     store = VectorStore(QdrantClient(path=settings.qdrant_path), settings.collection, embedder.dim)
-    if settings.llm_provider == "openai":
-        llm = OpenAICompatibleLLM(settings.llm_base_url, settings.llm_model, settings.llm_api_key)
-    else:
-        llm = MockLLM()
+    llm = make_llm(settings)
     return Pipeline(embedder, store, llm, settings.chunk_size, settings.chunk_overlap)
 
 
