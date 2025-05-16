@@ -1,0 +1,17 @@
+[
+  {"question": "How many days of paid annual leave do full-time employees get?", "file": "handbook.pdf", "page": 1, "keywords": ["25"]},
+  {"question": "How much unused leave can be carried over?", "file": "handbook.pdf", "page": 1, "keywords": ["5"]},
+  {"question": "How many days a week can I work from home?", "file": "handbook.pdf", "page": 2, "keywords": ["three"]},
+  {"question": "What is the internet allowance for remote workers?", "file": "handbook.pdf", "page": 2, "keywords": ["30"]},
+  {"question": "What is the daily meal limit on business trips?", "file": "handbook.pdf", "page": 3, "keywords": ["40"]},
+  {"question": "Should I fly or take the train for a 300 km trip?", "file": "handbook.pdf", "page": 3, "keywords": ["train"]},
+  {"question": "Which direction should solar panels face?", "file": "solar_guide.pdf", "page": 1, "keywords": ["south"]},
+  {"question": "What does an inverter do?", "file": "solar_guide.pdf", "page": 2, "keywords": ["alternating"]},
+  {"question": "Which inverter type handles shade better?", "file": "solar_guide.pdf", "page": 2, "keywords": ["microinverter"]},
+  {"question": "How often should solar panels be cleaned?", "file": "solar_guide.pdf", "page": 3, "keywords": ["twice"]},
+  {"question": "Can I use a pressure washer on my panels?", "file": "solar_guide.pdf", "page": 3, "keywords": ["never"]},
+  {"question": "What ratio of flour and water is used to feed a starter?", "file": "sourdough.pdf", "page": 1, "keywords": ["equal"]},
+  {"question": "What hydration is recommended for beginners?", "file": "sourdough.pdf", "page": 2, "keywords": ["70"]},
+  {"question": "How much salt goes in the dough?", "file": "sourdough.pdf", "page": 2, "keywords": ["2 percent"]},
+  {"question": "What oven temperature is used for baking sourdough?", "file": "sourdough.pdf", "page": 3, "keywords": ["250"]}
+]
