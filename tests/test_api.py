@@ -1,3 +1,4 @@
+import httpx
 import pytest
 from conftest import make_pdf
 from fastapi.testclient import TestClient
@@ -50,3 +51,14 @@ def test_rejects_pdf_without_text(client):
 def test_ask_validates_input(client):
     assert client.post("/ask", json={"question": ""}).status_code == 422
     assert client.post("/ask", json={"question": "x", "top_k": 0}).status_code == 422
+
+
+def test_llm_failure_returns_502(pipeline):
+    class BrokenLLM:
+        def generate(self, question, sources):
+            raise httpx.ConnectError("connection refused")
+
+    pipeline.llm = BrokenLLM()
+    with TestClient(create_app(pipeline)) as client:
+        r = client.post("/ask", json={"question": "anything"})
+    assert r.status_code == 502

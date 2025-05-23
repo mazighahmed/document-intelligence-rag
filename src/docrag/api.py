@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+import httpx
 from fastapi import FastAPI, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
@@ -85,7 +86,10 @@ def create_app(pipeline: Pipeline | None = None, settings: Settings | None = Non
 
     @app.post("/ask", response_model=AskResponse)
     def ask(request: AskRequest) -> AskResponse:
-        result = app.state.pipeline.ask(request.question, request.top_k or settings.top_k)
+        try:
+            result = app.state.pipeline.ask(request.question, request.top_k or settings.top_k)
+        except httpx.HTTPError as e:
+            raise HTTPException(502, f"LLM request failed: {e}") from e
         sources = [
             Source(
                 doc_id=c.doc_id,
